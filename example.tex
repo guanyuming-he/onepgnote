@@ -1,0 +1,526 @@
+% two columns generally contains more content than 1 col, despite the small gap
+% in the middle, because line breaks, and unfull lines cost less here.
+\documentclass[a4paper,twocolumn,10pt]{onepgnote}
+
+\usepackage{amsmath,amssymb}
+\usepackage{physics}
+
+\usepackage[margin=10pt]{geometry}
+
+
+\begin{document}
+% no header, no footer.
+\pagestyle{empty}
+\section{Basics}
+\subsection{Index Notation} 
+\begin{enumerate}
+	\item 
+	Whenever a quantity is summed over an index which appears exactly twice
+	in each term in the sum, we leave out the summation sign. Such an index
+	is called a \emph{dummy index}.
+	\item 
+	An index appearing only once is called a \emph{free index}.
+	\item 
+	No index may appear three times in a term. But one index can appear
+	multiple times in an equation. A term is the basic unit in index
+	notation.
+\end{enumerate}
+For example,
+\[
+	x_{ik}y_{jk} + a_{ik}b_{ik} = a_i + b_j \quad \hbox{means} \quad \sum_k
+	x_{ik}y_{jk} + \sum_{k}a_{ik}b_{ik} =
+	a_i + b_j
+\]
+
+\subsection{Definitions}
+The \emph{Kronecker delta} $\delta_{ij} := 1$ iff $i=j$ else $0$.
+
+We define the \emph{Levi-Civita symbol} $\varepsilon_{ijk}$ for $1 \le i,j,k \le
+3$ to be
+\begin{enumerate}
+\item 
+	$0$ iff $(i,j,k)$ is not a permutation of $(1,2,3)$.
+\item 
+	$1$ iff $(i,j,k) \in \{(1,2,3), (2,3,1), (3,1,2)\}$.
+\item 
+	$-1$ iff $(i,j,k) \in \{(1,3,2), (2,1,3), (3,2,1)\}$.
+\end{enumerate}
+That is, $\varepsilon_{ijk}$ equals to the parity of the permutation $(1,2,3)
+\to (i,j,k)$. Similarly, in 2D, $\varepsilon_{ij}$ is $1$ whenever $(i,j) =
+(1,2)$, $-1$ when $(i,j) = (2,1)$, and $0$ otherwise.
+
+\begin{enumerate}
+\item
+	The \emph{double dot product} is $\vb{A} : \vb{B} :=
+	\sum_{i}\sum_{j}A_{ij}B_{ij}$ \label{doubledot}.
+\item
+	When one operand of the dot product is a matrix, it is interpreted as
+	matrix multiplication.
+\item 
+	If we apply gradiant to a vector-valued function $\vb{f}(\vb{x})$, then
+	we are putting the gradiant of each component of it into a column of the
+	result matrix: $\nabla \vb{f} := [(\nabla f_1)^T, \dots, (\nabla
+	f_n)^T]$ \label{gradvec}.
+\end{enumerate}
+
+\begin{enumerate}
+\item
+	The \emph{divergence} of $\vb{P}$, $\nabla \cdot \vb{P} :=
+	\sum_{i}\pdv{P_i}{x_i}$, as if $\nabla = (\pdv{}{x_1}, \dots,
+	\pdv{}{x_n})$. It represents the source/sink of a $\vb{v}$ field.
+	\mynote Distinguish $\nabla \cdot \vb{P}$ vs $\nabla \vb{P}$
+	\ref{gradvec}!
+\item
+	The \emph{Laplace operator (Laplacian)} is defined as the divergence of
+	the gradiant of function $f$, $\nabla^2 f := \nabla \cdot \nabla f$.
+	Rarely, we may use $\Delta$ for it.
+\item 
+	The \emph{curl} of $\vb{P}$ is defined as $\nabla \times \vb{P} =
+	(\pdv{v_3}{x_2} - \pdv{v_2}{x_3}, -(\pdv{v_3}{x_1} - \pdv{v_1}{x_3}),
+	\pdv{v_2}{x_1} - \pdv{v_1}{x_2})$. It represents the vorticity of a
+	$\vb{v}$ field.
+\end{enumerate}
+
+\subsection{Facts}
+\begin{enumerate}
+\item
+The area of a parallellogram equals $|\vb{a} \times \vb{b}|$. 
+\item
+	The volume of a
+parallelpiped equals $|\vb{a} \cdot (\vb{b} \times \vb{c})| = \det(\vb{a},
+\vb{b}, \vb{c})$.
+\item 
+	$\vb{a} \times \vb{b} =
+	\varepsilon_{ijk}\vb{e}_ia_jb_k$.
+\item 
+	$\varepsilon_{ijk}\varepsilon_{imn} = \delta_{jm}\delta_{kn} -
+	\delta_{jn}\delta_{km}$.
+\end{enumerate}
+
+\section{Change of basis}
+For vectors and matrices.
+
+\subsection{For vectors}
+Let $U$ be a finite $n$-dimensional vector space over field $F$. Let
+$(\vb{u}_i)_{i=1}^n$ and $(\vb{v}_i)_{i=1}^n$ be two ordered bases of $U$. Let
+$\vb{x}$ be any vector in $U$. Then, there exists two unique
+scalar sequences $(a_i)_{i=1}^n$ and $(b_i)_{i=1}^n$ such that $\sum_{i=1}^n
+a_i\vb{u}_i = \sum_{i=1}^n b_i\vb{v}_i$. They are also vectors in their own, in
+the vector space $F^n$. We want to find the change of basis function $T:
+(a_i)_{i=1}^n \mapsto (b_i)_{i=1}^n$, which exists since $(\vb{v}_i)_{i=1}^n$ is
+a basis.
+
+$T$ may be broken down into $T = f \circ g$ where $g((a_i)_{i=1}^n) :=
+a_i\vb{u}_i$, and $f(\vb{x} \in U) := (b_i)_{i=1}^n$ such that $b_i\vb{v}_i =
+\vb{x}$. It is clear that both $f$ and $g$ are linear, and thus $T$ is a linear
+function $F^n \to F^n$.
+
+We then seek its unique matrix representation under the standard basis
+$(\vb{e}_i)_{i=1}^n$ of $F^n$: $[T] = [T(\vb{e}_1)^T, \cdots, T(\vb{e}_n)^T]$. 
+
+\mynote When $U = F^n$ and if we happen to use
+the standard basis of $F^n$, then $\vb{x}$ will appear
+exactly the same as $(a_i)_{i=1}^n$, which can be extremely confusing. We must
+constantly remind ourselves that $T$ operates on the coordinate vectors and not
+directly on $\vb{x}$, which is the same vector regardless of the basis used to
+represent it as coordinates.
+
+\subsubsection{Change back} Since $(\vb{u}_i)_{i=1}^n$ is a basis (it
+spans $U$ and each $(a_i)_{i=1}^n$ is unique), $T$ is invertible. Then,
+indeed, the function $T^{-1}$ will be the change-back funcstion. As another way,
+one may swap the places of $(\vb{u}_i)$ and $(\vb{v}_i)$ in the above
+discussion.
+
+\subsection{For matrices}
+Let $f$ be a linear function $U \to U$. Under any basis $B =
+(\vb{u}_i)_{i=1}^n$, $f$ has a unique matrix representation $[f]_{B}$. It is
+interesting to us how the matrix changes when we use another basis $B' =
+(\vb{v}_i)_{i=1}^n$ as the coordinate frame to get $[f]_{B'}$.
+
+Let
+$\vb{x} \in U$ be any vector, and denote $f(\vb{x}) =: y$. Let $(a_i)_{i=1}^n$
+be the coordinates of $\vb{x}$ under basis $B$, $(b_i)_{i=1}^n$ be the
+coordinates of $\vb{y}$ under $B$, and $(a'_i)_{i=1}^n, (b'_i)_{i=1}^n$ be the
+coordinates for them under $B'$. Now, consider the change-of-basis function $T$
+changing the coordinate frame under $B$ to $B'$, then, since $f$ and
+$\vb{x}$ don't change for the basis, we should have
+\[
+	[f]_{B}T^{-1}(a'_i)_{i=1}^n = T^{-1}(b'_i)_{i=1}^n \quad \to \quad 
+	T[f]_{B}T^{-1}(a'_i)_{i=1}^n = (b'_i)_{i=1}^n
+\]
+Thus $[f]_{B'} = T[f]_{B}T^{-1}$. \mynote If we are talking about orthognormal
+bases, then $T$ will be an orthognormal matrix, resulting in $T^{-1} = T^T$.
+
+\subsection{Invariants}
+Formally, we define an \emph{invariant} to be any function on such matrices such
+that $f(M) = f(TMT^{-1})$ for all applicable matrices $M, T$. Three frequent
+invariants are 
+\begin{enumerate}
+	\item $\trace M$ \item $\det M$ \item $
+	M_{11}M_{22} + M_{22}M_{33} + M_{11}M_{33}
+	- M^2_{12} - M^2_{23} - M^2_{31}$.
+\end{enumerate}
+
+\section{Stress}
+Stress describes the forces present during the deformation of a material.
+It expresses the internal forces that neighbouring particles of
+a continuous material exert on each other.
+
+\subsection{Cauchy stress tensor}
+Cauchy observed that the stress vector across a surface will always be a linear
+function of the surface's normal vector. The matrix for this function (under
+a fixed basis) can be treated as a tensor and called the Cauchy stress
+tensor.
+
+For whatever reason, people chose to call the value of the Cauchy stress tensor
+function a \emph{traction vector}, and use stress to refer to the matrix
+(tensor) of the function. \mynote In practice we assume the function takes
+normalized normals.
+
+Under the standard basis, by the principle of conservation of angular momentum,
+the matrix can be shown to be symmetric \label{stresssym}. Thus, the traction
+vector can be computed by either $[\sigma]\vb{n}$ or $[\sigma]^T\vb{n}$. In the
+lecture the second way is used.
+
+\subsection{Normal \& shear tractions}
+For a traction vector, one can divide it into two components,
+\begin{enumerate}
+\item
+	\emph{Normal traction}, which is parallel to the surface normal $\vb{n}$,
+\item 
+	\emph{Shear traction}, which is perpendicular to the normal $\vb{n}$.
+\end{enumerate}
+One can easily calculate the normal traction $\vb{t}_n = (\vb{t} \cdot \vb{n})
+\vb{n}$. Then, the shear traction is $\vb{t}_s = \vb{t} - \vb{t}_n$.
+\mynote We may abuse notation sometimes to refer to the magnitude of the
+traction as traction. \mynote We also define the change in angle between two
+normalized vectors under a stress tensor $\sigma$ to be (by symmetry),
+$2\vb{v}_1[\sigma]\vb{v}_2^T = 2\vb{v}_2[\sigma]\vb{v}_1^T$. 
+
+\subsection{Infinitesimal strain}
+The infinitesimal strain theory is an idealized theory in which one can arrive
+at simple formulae for deformation. Under this, the spatial and material
+coordinates are approximately the same, and we have the infinitesimal
+displacement/strain tensor $\epsilon = 1/2 ((\nabla_{\vb{x}} \vb{u})^T +
+\nabla_{\vb{x}} \vb{u})$ \label{inften1} and the infinitesimal rotation tensor
+$\omega = 1/2(\nabla_{\vb{x}} \vb{u} - (\nabla_{\vb{x}} \vb{u})^T)$, where
+$\vb{u}(\vb{x}, \dots)$ is the displacement vector field, and
+$\nabla_{\vb{x}}\vb{u} = [(\nabla_{\vb{x}} u_1)^T, \cdots, (\nabla_{\vb{x}}
+u_n)^T]$ \ref{gradvec}.
+
+About $\epsilon$,  an original location vector $\vb{x}$'s deformation will be
+described by it in such a way that $\vb{x}' = \epsilon \vb{x}$. We have 
+\begin{enumerate}
+\item
+	The diagonal elements of $\epsilon$ represent fractional length changes.
+	E.g., if $\vb{x} \parallel \vb{e}_1$, then $\epsilon_{11} = (|\vb{x}'| -
+	|\vb{x}|)/|\vb{x}|)$.
+\item
+	Thus, $\trace \epsilon = \nabla \cdot \vb{u}$ is the fractional change in volume.
+\item
+	Off-diagonal elements represent changes in angle. This is because, the
+	angle, for unit vectors, is $\arccos$ of $\vb{x} \cdot \vb{x}' =
+	\vb{x}\cdot(\epsilon \vb{x}) = \vb{x}\epsilon\vb{x}^T$.
+\item 
+	As such, $2\epsilon_{ij}, i\ne j$ is the change in angle between
+	$\vb{e}_i$ and $\vb{e}_j$ after the deformation. Also, given $\vb{p}
+	\perp \vb{q}$, $2\vb{q}\epsilon\vb{p}^T$ is the change in angle between
+	them.
+\end{enumerate}
+
+\section{Material vs spatial}
+Suppose we are interested in some physical property $\vb{P}$ of some material in
+space. 
+\begin{enumerate}
+\item
+	In material (Lagrangian) specification, the observer's eyes follows a
+	particular particle, and the property is a function of the particle's
+	initial location $\xi$ and the time $t$: $\vb{P}(\xi, t)$.
+\item 
+	In spatial (Eulerian) specification, the observer does not follow any
+	particle but instead gives a global description of the space, resulting
+	in function $\vb{P}(\vb{x}, t)$, giving the property for the particle at
+	location $\vb{x}$ at time $t$.
+\end{enumerate}
+
+\subsection{Their link}
+Suppose we are given a spatial description $\vb{P}(\vb{x}, t)$, and would like
+to use this to follow a specific particle to give a material description to it.
+Then, $\vb{x}$, for the particle, is a function: $\vb{x}(\xi, t)$, and $\vb{P}$
+becomes $\vb{P}(\vb{x}(\xi, t), t)$. Specifically, if we want to find
+$\pdv{\vb{P}}{t}$, then we need to use the chain rule to get
+\[
+	\pdv{\vb{P}}{\vb{x}}\pdv{\vb{x}}{t} + \pdv{\vb{P}}{t}\pdv{t}{t} = 
+	\pdv{\vb{P}}{\vb{x}}\vb{v}(\xi, t) + \pdv{\vb{P}}{t} = 
+	\sum_{i}\pdv{\vb{P}}{x_i}v_i(\xi, t) + \pdv{\vb{P}}{t}
+\]
+
+\section{Equations}
+\subsection{Terms}
+\begin{enumerate}
+\item \emph{Steady state} means everything is constant w.r.t.\ time $t$.
+\item \emph{No flow} means velocity $\vb{v} = \vb{0}$. 
+\item \emph{No strain, stress} means the strain, stress tensors $\sigma,
+	\epsilon = \vb{0}$.
+\end{enumerate}
+
+\subsection{of mass} 
+For the conservation of mass,
+\begin{enumerate}
+\item
+	In spatial description, we have $\pdv{\rho}{t} + \nabla \cdot
+	(\rho\vb{v}) = 0$.
+\item
+	In material description, it becomes $\frac{D\rho}{Dt} + \rho(\nabla \cdot
+	\vb{v}) = 0$.
+\item If the material is incompressible, i.e., $\rho$ is constant, then the
+	equation is reduced to $\nabla \cdot \vb{v} = 0$.
+\end{enumerate}
+
+\subsection{of momentum}
+\begin{enumerate}
+\item
+The conservation of angular momentum results in $\sigma$'s being
+symmetric \ref{stresssym}.
+\item
+	As for that of linear momentum \label{conlinmom}, we have 
+$
+	\rho\left(\pdv[2]{\vb{u}}{t} = \pdv{\vb{v}}{t}\right) = 
+	\vb{f} + \nabla\cdot\sigma =
+	\sum_{i}\Big(f_i + \sum_j \pdv{\sigma_{ji}}{x_j}\Big).
+$
+\end{enumerate}
+
+\subsection{of energy}
+The general form of conservation of energy in the lecture is
+$
+	\frac{D\rho C_pT}{Dt} = \nabla\cdot k(\nabla T) + A + \sigma:\vb{D}.
+$
+, where $:$ is \ref{doubledot} and the terms from the left to the right are
+\begin{enumerate}
+\item change in temperature with time
+\item heat transfer by conduction (and radiation)
+\item heat production (including latent heat)
+\item heat generated by internal deformation.
+\end{enumerate}
+
+\subsection{Rheology}
+We have $\hbox{rheology} \cdot \hbox{deformation}\ (\epsilon) = \hbox{stress}\
+(\sigma)$.
+
+\subsubsection{Elasticity}
+\begin{enumerate}
+\item 
+	Elasticity means a material's deformation under a force will be restored
+	when the force is removed. Under perfect elasticity, Hook's law states
+	that the distance of deformation is proportional (linear) to the force
+	applied: $\sigma = C : \epsilon$ \ref{inften1}.
+\item 
+	Since it is linear, elasticity of a material is quantified by the \emph{elastic
+		modulus}, defined as $\delta :=
+		\frac{\hbox{stress}}{\hbox{strain}}$.
+\item Young's modulus $E
+	:= \frac{\sigma_{11}}{\epsilon_{11}}$c, and Poisson's ratio $\nu
+	:= -\frac{\epsilon_{33}}{\epsilon_{11}}$.
+\item 
+	In homogeneous and isotropic materials, Lam\'e's constants
+	$\lambda, \mu$ define Hooke's law in 3D
+	$\sigma = 2\mu\epsilon + \lambda \trace (\epsilon) I_{3\times3}$.
+\item
+With the Bulk ($K$) and shear ($G$) modulus: $-p = K\theta$ (isotropic)
+$\sigma'_{ij} = \frac{\sigma_{kk}}{3} = K \epsilon_{kk} = 2G\epsilon'_{ij}$
+(deviatoric), where $\sigma_{ij} + p\delta_{ij} =: \sigma'_{ij}$. Thus, $K =
+\lambda + 2\mu/3$, where the second RHS term is compressional and the third is
+shear.
+\item
+In Newtonian, general compressible fluids, $\sigma = (-p+\zeta\Delta)\vb{I} +
+2\eta\vb{D}$, where $D$ is the strain rate, $\Delta = D_{kk} = \nabla \cdot
+\vb{v}$. We have the Navier-Stokes equation $ \nabla p + (\zeta + \eta) \nabla
+\Delta + \eta \nabla^{2} \vb{v} + \vb{f} = \rho \frac{D\vb{v}}{Dt} = \rho
+(\frac{\partial{\vb{v}}}{\partial{t}} + \vb{v} \cdot \nabla \vb{v}) $ If the
+fluid is incompressible, then $\Delta = \nabla \cdot \vb{v} = 0$ and it's
+simplified to $\sigma = -pI+2\eta D$, and we have the Navier-Stokes equation $
+-\nabla p + \eta \nabla^{2} \vb{v} + \vb{f} = \rho
+(\frac{\partial{\vb{v}}}{\partial{t}} + \vb{v} \cdot \nabla \vb{v}) $.
+\end{enumerate}
+
+\subsubsection{Wave equation} Substituting Lam\'e's constants formula into the
+equation of conservation of linear momentum \ref{conlinmom}, we have
+$
+\rho\pdv[2]{\vb{u}}{t} = \vb{f} + (\lambda +
+2\mu)\nabla(\nabla\cdot\vb{u})-\mu\nabla\times\nabla\times\vb{u}
+$.
+
+\section{Interpolation}
+Let $(x_i, y_i)_{i=0}^{N}$ be $N+1$ data points. It can be shown that, provided
+$\forall i,j, x_i \ne x_j$, $\{(x_i^n)_{n=0}^N\}_{i=0}^{N}$ is linearly
+independent. Thus, the linear system $X\vb{a} = \vb{y}$, where $X$ has these
+vectors as rows and $\vb{y} = (y_i)_{i=0}^N$, has a unique solution, $\vb{a} =
+(a_n)_{n=0}^N$ which is the coefficient vector of the unique polynomial of
+degree $N$ passing through them.
+
+\subsection{Lagrange} Let $\mathcal{P}_N$ be the set of all polynomials of
+degree $N$ or less. It is a $(N+1)$-dimensional vector space.  Lagrange found a basis
+$\{\ell_i(x)\}_{i=0}^N$, where $\ell_i(x) := \prod_{m \ne
+i}\frac{x-x_m}{x_i-x_m}$, and showed that $L(x) := \sum_{i=0}^Ny_i\ell_i(x)$ is
+the unique interpolating polynomial.
+
+\subsubsection{Remainder} Lagrange proved that, for any $f \in C^{N+1}[a,b]$,
+and datapoints $(x_i, y_i)_{i=0}^N$ that $f$ passes through, the unique
+interpolation polynomial $P_N(x)$ results in a remainder, $R(x) := f(x) -
+P_N(x)$, satisfying $\forall x \in [a,b],\ \exists c \in [a,b],\ R(x) =
+\Psi(x)f^{N+1}(c)/(N+1)!$, where $\Psi(x) := \prod_{i=0}^N(x-x_i)$. \mynote
+Thus, $\Psi(x)\max(f^{N+1}(c))/(N+1)!$ is an upper bound of it.
+
+\subsection{Variants} Observe that $\Psi(x)$ is much larger around $a$ or $b$
+for evenly spaced datapoints. This, plus potentially large $f^{N+1}(c)$, gives
+very unstable results near the boundary. 
+\begin{enumerate}
+\item
+Usually the choice of $x_i$ is the only thing we can control. Lanczos found that
+$\max_{x_i \in [-1,1]}\Psi(x)$ attains the minimum when $x_i$ are the roots of
+the Chebyshev polynomial $T_{N+1}(x)$, $x_i = \cos(\frac{2i-1}{2N}\pi)$.
+\item 
+We may also interpolate $f$ piecewise to decrease the error, although it will
+make the interpolation function lose some smoothness.
+\end{enumerate}
+
+\section{Quadrature}
+\begin{enumerate}
+\item 
+	Midpoint $I_M := \sum_{i=0}^{n-1}\discretionary{}{}{}  f \left ( \frac
+	{x_{i+1}+x_i} {2} \right )\discretionary{}{}{} (x_{i+1}-x_i)$.
+\item 
+	Trapezoidal $\sum_{i=0}^{n-1}\discretionary{}{}{}  \left(\frac{f(x_{i+1}) +
+	f(x_{i})}{2}\right )\discretionary{}{}{} (x_{i+1}-x_i)$.
+\item
+	Simpson's $I_S := \frac{2}{3}I_M + \frac{1}{3}I_T =
+	\sum_i \frac{(x_{i+1}-x_i)}{6}(f(x_i)+4f(m)+f(x_{i+1}))$.
+\item 
+	Weddle's $I_W = I_{S_2} + \frac {\left (I_{S_2} - I_S \right
+	)}{15}$, where $I_{S_2}$ is Simpson's applied on double amount
+	of intervals.
+\item Composite trapezoidal $\frac{\Delta
+	x}{2}[f(x_0) + 2f(x_1) + \dots + 2f(x_{n-1}) + f(x_n)]$.
+\item Composite Simpson's $\frac{\Delta x}{3}\left[ f \left ( x_0\right ) +
+	2\sum_{i=1}^{n/2 - 1} f\left(x_{2i}\right) + 4\sum_{i=1}^{n/2}
+f\left(x_{2i-1}\right)  +  f \left ( x_{n}\right ) \right]$.
+\end{enumerate} \mynote Composite Simpson actually uses 2 intervals as one, and
+the middle point is thus some $x_i$.
+
+\subsection{Error} All these rules can be regarded as doing piecewise polynomial
+interpolation on $f$ on evenly spaced datapoints, integrating $f$ minus the
+polynomial, summing over the intervals, and using the Lagrange remainder to find
+the error.  We may find
+\begin{enumerate}
+\item 
+	Trapezoidal: $-\frac{1}{12} \Delta x^2 (b-a) \frac{1}{n}
+	\sum_{i=0}^{n-1}\,  f''\left(c_{x_i}\right)$
+\item 
+	Midpoint: $\frac{1}{24} \Delta x^2 (b-a) \frac{1}{n} \sum_{i=0}^{n-1}\,
+	f''\left(c_{x_i}\right)$.
+\item
+	Simpson's: since the error $I-I_T \approx -2(I-I_M)$, we imagine there's
+	a better approximation $I_S$ such that $I_S - I_T = -2(I-I_M)$, giving
+	$I_S = \frac{2}{3}I_M + \frac{1}{3}I_T$. We have error $-\frac{\Delta
+	x^4}{180} (b-a)f^{(4)}\left(c_x\right)$.
+\item 
+	Weddle's: it would be a fuss to derive the exact one but it should be
+	proportional to $\Delta x^6$.
+\end{enumerate}
+
+\section{ODE} To approximately solve (satisfying convergence as $\Delta t \to 0$
+and correct qualitative behaviour) $y'(t) = f(t, y(t))$, we have
+\begin{enumerate}
+\item
+By the definition of derivative or the Taylor series, we have $y_{n+1} \approx
+y_{n} + \Delta t y'(t_n)$. This the the forward Euler.
+\item
+By the definition of derivative, we may also say $y_{n+1} \approx y_n + \Delta t
+y'(t_{n+1})$, which is the backward Euler.
+\item 
+We may also say $y'(t_n) \approx \frac{y_{n+1}-y_{n-1}}{2\Delta t}$ and as such
+$y_{n+1} \approx y_{n-1} + 2\Delta t y'(t_n)$, which is leapfrog.
+\item
+Recall the trapezoidal rule before, we may use it here to average the forward
+and backward Euler to obtain $y_{n+1} \approx y_{n} + \Delta t\frac{y'(t_n) +
+y'(t_{n+1})}{2}$.
+\end{enumerate}
+
+\subsection{Error}
+\begin{enumerate}
+	\item The \emph{local error (LE)} is error committed at one step, assuming
+		the previous step $y_{n}$ is exact. Thus it is $y_{n+1} -
+		y_{n+1}'$. 
+	\item For example, using Taylor series, forward Euler has local error
+		$(\frac{\Delta t^2}{2!}y''_n + \dots)$. 
+	\item The \emph{(local) truncation error (LTE)}, $\tau$, is defined by
+		the local error scaled down: $\tau := LE / (\Delta t)$.
+	\item A method is \emph{consistent} if $\lim_{\Delta t \to 0}\tau
+		= 0$.
+	\item The \emph{global error} is $E := \max_{t_0 \, \le \, t_n \, \le \, T}\|
+		y_{n} - y(t_{n})\|$, only assuming the inital $y_0$ is exact.
+	\item A method \emph{converges} iff $\lim_{\Delta t \to 0} E = 0$.
+\end{enumerate}
+
+\subsection{Stability} 
+Stability in numerical methods of solving ODEs have different definitions, but
+in general we would want the numerial methods to exhibit the same important
+properties as the exact solution. We have
+\begin{enumerate}
+\item
+	A numerical method is said to be \emph{A-stable}, if, when applied to
+	the reference equation $y'=ky \land y(0) = 1$ for $k \in \mathbf{C}$,
+	demonstrates that, provided $\real(k) < 0$, $\lim_{t
+	\to \infty} \hbox{solution} \to 0$, the same property from the exact
+	solution $y(t) = e^{kt}$.
+
+\item
+	A numerical method is \emph{L-stable}, if it is A-stable, and that its
+	stability function $\phi(x) \to 0$ as $z \to \infty$.
+\end{enumerate}
+
+\subsection{Adams-Bashforth}
+For general ODE of form $y'(t) = f(y(t), t)$, according to the fundamental
+theorem of calculus, $y_{n+1} - y_n = \int_{t_n}^{t_{n+1}}f(y(t),t) \dd{t}$.
+
+The A-B schemes uses combinations of $f_{i}$ for $k$ many $i$'s with $i \ne n+1$
+to approximate the RHS integral to numerically solve the ODE. We have these AB
+schemes:
+\begin{enumerate}
+	\item $k=0$-step: $y_{n+1} = y_n + \Delta t f_n$.
+	\item $k=1$-step: $y_{n+1} = y_{n} +\frac{\Delta t}{2}\; (f_{n} +
+		f_{n+1})$.
+	\item $k=2$-step: $y_{n+2} = y_{n+1} + \frac{\Delta t}{12}\; (-f_{n} +
+		8 f_{n+1} + 5f_{n+2})$.
+	\item $k=3$-step: $y_{n+3} = y_{n+2} + \frac{\Delta t}{24}\; (f_{n} - 5
+		f_{n+1} + 19 f_{n+2} + 9 f_{n+3})$.
+	\item $k=4$-step: $y_{n+4} = y_{n+3} + \frac{\Delta t}{720}\; (-19
+		f_{n} + 106 f_{n+1} - 264 f_{n+2} + 646 f_{n+3} + 251 f_{n+4})$
+\end{enumerate}
+
+\subsection{Runge-Kutta}
+Similar to the trapezoidal method, we have $y_{n+1} - y_n \approx
+\frac{1}{2}\Delta t(y'_n + y'_{n+1})$. However, here, $y'_{n+1} =
+f(y_{n+1},t_{n+1})$, where $y_{n+1}$ is not known. 
+
+In Runge-Kutta 2-step (RK2),
+we first use forward Euler to get $y^* \approx y_{n+1}$, then use this to
+calculate the RHS, and finally gives an approximation to $y_{n+1}$ again.
+Perhaps surprisingly, RK2 is better in many ways than forward Euler.
+Specifically, it is L-stable.
+
+But the most common one is RK4, which has $y_{n+1} = y_n + \frac{h}{6}\left(k_1
++ 2k_2 + 2k_3 + k_4 \right)$, where $h$ is the step size, and 
+\begin{enumerate}
+\item
+$k_1 = \ f(t_n, y_n)$
+\item
+$k_2 = \ f\!\left(t_n + \frac{h}{2}, y_n + h \frac{k_1}{2}\right)$
+\item
+$k_3 = \ f\!\left(t_n + \frac{h}{2}, y_n + h \frac{k_2}{2}\right)$
+\item
+$k_4 = \ f\!\left(t_n + h, y_n + h k_3\right)$
+\end{enumerate}.
+
+\end{document}
