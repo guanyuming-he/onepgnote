@@ -1,0 +1,78 @@
+\documentclass{article}
+
+\author{Guanyuming He}
+\date{\today}
+\title{Manual for onepgnote}
+
+\begin{document}
+\pagestyle{empty}
+\maketitle
+\tableofcontents
+
+\clearpage
+\section{Motivation}
+The package was written when I was a student at Imperial College London,
+preparing for an exam that allows each person to bring a one-page note.
+
+As a \TeX nitian, I naturally wanted to typeset it using \LaTeX. At first, I
+thought of using some existing package to do that. I found \texttt{cheatsheet}
+on CTAN, but felt that I still could have saved a lot of space to put more
+things on the paper. Moreover, I have a few cool ideas that \texttt{cheatsheet}
+didn't provide. Thus, I made this package.
+
+\section{Basic Ideas}
+The package is designed to be simple yet powerful, thanks to the following
+powerful ideas.
+\begin{enumerate}
+	\item One major space eater is the glues between sections. Yet they serve an
+		important task: make the sectioning obvious. The first goal is to
+		eliminate the space while keeping the sectionings very conspicuous. To
+		accomplish that, I use \texttt{tcolorbox} with bright frames and
+		\verb|\fbox|es.
+
+		This feature overrides the \verb|\section| and \verb|\subsection|
+		commands.
+	\item A lot of ideas are put on a one-note page. Yet for spaces issues, one
+		would want to write all related in a paragraph. Thus, I created macros
+		for inline enumeration: each \verb|\item| is marked with an \verb|\tcbox|
+		that is as small as about two letters, which contains the \verb|\item|
+		number.
+
+		This overrides the \verb|enumerate| environment.
+	\item A lot of different ideas from all over the course are put in the note.
+		As such, one would sometimes want to refer to another place in a note.
+		Unfortunately, printed paper doesn't allow one to click on hyperlinks.
+		
+		Therefore, I made all \verb|\label|s and \verb|\ref|s visible, and each
+		pair has a unique number to identify it.
+	\item My major is math-heavy. I reduced the spaces before and after
+		displayed math a lot.
+	\item I use conspicuous inline \verb|\tcbox|es to also mark other important
+		things. For example, if one wants to note something, then one puts a
+		\verb|\notebox|, which produces a yellow inline box containing
+		\texttt{NOTE}, followed by a space.
+	\item It may seem a good idea to also load the \texttt{geometry} package to
+		control the margins, etc. However, I believe it violates the modular
+		principle. My package should not do things that it's not supposed to do. 
+
+		Therefore, I avoided all such geometry manipulations in my package, so
+		that a user can load such packages individually to configure what she
+		wants.
+\end{enumerate}
+
+These few ideas don't take a lot lines of code to implement, but together, they
+enable the making of very space-efficient and reading-efficient one-page notes.
+
+\section{Example (Template)}
+Inside the package installation directory, you will notice an
+\texttt{example.tex} that contains an example one-page note.
+
+In fact, that was the note that I used for the exam I mentioned at the beginning
+in the Motivation. I hope that demonstrates the simplicity and the power of my
+package.
+
+\section{Future directions}
+The package is largely not configurable. I plan to add more options to that in
+the future.
+
+\end{document}

@@ -1,0 +1,21 @@
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.lol
+*.nav
+*.snm
+*.synctex.gz
+*.synctex(busy)
+*.vrb
+
+# output
+*.pdf
