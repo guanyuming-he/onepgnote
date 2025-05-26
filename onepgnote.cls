@@ -1,19 +1,61 @@
 %---------------------------------- Roll back part -----------------------------
-\DeclareCurrentRelease{v0.9.0}{2025-04-26}
+\DeclareCurrentRelease{v1.0.0}{2025-05-26}
 
 %---------------------------------- ID part -----------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{onepgnote}[v0.9 All functions work but mostly not configurable.
-On that I will work later.]
+\ProvidesClass{onepgnote}[v1.0 All main functions are now configurable.]
 
 %---------------------------------- Declare options -----------------------------
-% For now, I have not options. Just pass all of them to article.
-\DeclareOption*{%
-	\PassOptionsToClass{\CurrentOption}{article}
+\DeclareKeys[onepgnote]{
+    % Section styling options
+    sectionvspace.store = \onepgnote@sectionvspace,
+    sectionleftmargin.store = \onepgnote@sectionleftmargin,
+    sectionrightmargin.store = \onepgnote@sectionrightmargin,
+    sectionbottommargin.store = \onepgnote@sectionbottommargin,
+    sectionborderwidth.store = \onepgnote@sectionborderwidth,
+    sectionbordercolor.store = \onepgnote@sectionbordercolor,
+    
+    % Enumeration options
+    enumboxcolor.store = \onepgnote@enumboxcolor,
+    enumboxrounding.store = \onepgnote@enumboxrounding,
+    enumboxpadding.store = \onepgnote@enumboxpadding,
+    
+    % Label/reference box options
+    labelboxcolor.store = \onepgnote@labelboxcolor,
+    
+    % Display math spacing options
+    displayskipabove.store = \onepgnote@displayskipabove,
+    displayskipaboveshort.store = \onepgnote@displayskipaboveshort,
+    displayskipbelow.store = \onepgnote@displayskipbelow,
+    displayskipbelowshort.store = \onepgnote@displayskipbelowshort,
+    
+    % Note box options  
+    noteboxcolor.store = \onepgnote@noteboxcolor,
+    noteboxframecolor.store = \onepgnote@noteboxframecolor
 }
+% Unknown key handler - pass to article class
+\DeclareUnknownKeyHandler{\PassOptionsToClass{\CurrentOption}{article}}
+
+% Set default values
+\def\onepgnote@sectionvspace{5pt plus 2pt minus 3pt}
+\def\onepgnote@sectionleftmargin{3mm}
+\def\onepgnote@sectionrightmargin{1mm}
+\def\onepgnote@sectionbottommargin{1mm}
+\def\onepgnote@sectionborderwidth{2pt}
+\def\onepgnote@sectionbordercolor{red}
+\def\onepgnote@enumboxcolor{cyan!50}
+\def\onepgnote@enumboxrounding{2pt}
+\def\onepgnote@enumboxpadding{2pt}
+\def\onepgnote@labelboxcolor{green!40!white}
+\def\onepgnote@displayskipabove{1pt plus 2pt minus 1pt}
+\def\onepgnote@displayskipaboveshort{1pt plus 2pt minus 1pt}
+\def\onepgnote@displayskipbelow{1pt plus 2pt minus 1pt}
+\def\onepgnote@displayskipbelowshort{1pt plus 2pt minus 1pt}
+\def\onepgnote@noteboxcolor{yellow}
+\def\onepgnote@noteboxframecolor{yellow}
 
 %---------------------------------- Execute options -----------------------------
-\ProcessOptions \relax
+\ProcessKeyOptions[onepgnote]
 
 %---------------------------------- Package loading -----------------------------
 % Based on article
@@ -47,10 +89,13 @@ On that I will work later.]
 	\tcbox[%
 		nobeforeafter,box align=base,% inline box
 		blanker,
-		left=3mm,right=1mm,
-		bottom=1mm,
-		borderline east={2pt}{0pt}{red},
-		borderline south={2pt}{0pt}{red}
+		left=\onepgnote@sectionleftmargin,
+		right=\onepgnote@sectionrightmargin,
+		bottom=\onepgnote@sectionbottommargin,
+		borderline east={\onepgnote@sectionborderwidth}{0pt}%
+		{\onepgnote@sectionbordercolor},
+		borderline south={\onepgnote@sectionborderwidth}{0pt}%
+		{\onepgnote@sectionbordercolor}
 	]{%
 		\bfseries\large #1%
 	}
@@ -72,8 +117,10 @@ On that I will work later.]
 \newcommand{\coloredctr}{%
 	\stepcounter{coloredboxcounter}% Increment the counter
 	\tikz[baseline=(box.base)]{
-		\node[rectangle, draw=black, fill=cyan!50, rounded corners=2pt,
-		inner sep=2pt] (box)
+		\node[rectangle, draw=black, 
+		fill=\onepgnote@enumboxcolor,
+		rounded corners=\onepgnote@enumboxrounding,
+		inner sep=\onepgnote@enumboxpadding] (box)
 		{\thecoloredboxcounter};%
 	}%
 }
@@ -89,7 +136,7 @@ On that I will work later.]
 % Visible colored box for labels and references.
 \newtcbox{\mylblbox}{%
 	nobeforeafter,box align=base,
-	colback=green!40!white, sharp corners,
+	colback=\onepgnote@labelboxcolor, sharp corners,
 	size=tight%
 }
 
@@ -115,16 +162,20 @@ On that I will work later.]
 
 %%%%%%%%%%%%%%%%%% Feature 4 %%%%%%%%%%%%%%%%%%%%%%%
 \AtBeginDocument{%
-\abovedisplayskip=1pt plus 2pt minus 1pt
-\abovedisplayshortskip=1pt plus 2pt minus 1pt
-\belowdisplayskip=1pt plus 2pt minus 1pt
-\belowdisplayshortskip=1pt plus 2pt minus 1pt
+\abovedisplayskip=\onepgnote@displayskipabove
+\abovedisplayshortskip=\onepgnote@displayskipaboveshort
+\belowdisplayskip=\onepgnote@displayskipbelow
+\belowdisplayshortskip=\onepgnote@displayskipbelowshort
 }
 
 %%%%%%%%%%%%%%%%%% Feature 5 %%%%%%%%%%%%%%%%%%%%%%%
 \newtcbox{\notebox}{%
-	colback=yellow, colframe=yellow, sharp corners,
+	colback=\onepgnote@noteboxcolor, 
+	colframe=\onepgnote@noteboxframecolor,
+	sharp corners,
 	nobeforeafter,box align=base,% inline box
 	size=tight
 }
 \newcommand\mynote{\notebox{NOTE}\ }
+
+\endinput
