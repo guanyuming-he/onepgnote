@@ -1,61 +1,91 @@
 %---------------------------------- Roll back part -----------------------------
-\DeclareCurrentRelease{v1.0.0}{2025-05-26}
+\DeclareCurrentRelease{v1.0.0}{2025-05-27}
 
 %---------------------------------- ID part -----------------------------
-\NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{onepgnote}[v1.0 All main functions are now configurable.]
 
-%---------------------------------- Declare options -----------------------------
-\DeclareKeys[onepgnote]{
-    % Section styling options
-    sectionvspace.store = \onepgnote@sectionvspace,
-    sectionleftmargin.store = \onepgnote@sectionleftmargin,
-    sectionrightmargin.store = \onepgnote@sectionrightmargin,
-    sectionbottommargin.store = \onepgnote@sectionbottommargin,
-    sectionborderwidth.store = \onepgnote@sectionborderwidth,
-    sectionbordercolor.store = \onepgnote@sectionbordercolor,
-    
-    % Enumeration options
-    enumboxcolor.store = \onepgnote@enumboxcolor,
-    enumboxrounding.store = \onepgnote@enumboxrounding,
-    enumboxpadding.store = \onepgnote@enumboxpadding,
-    
-    % Label/reference box options
-    labelboxcolor.store = \onepgnote@labelboxcolor,
-    
-    % Display math spacing options
-    displayskipabove.store = \onepgnote@displayskipabove,
-    displayskipaboveshort.store = \onepgnote@displayskipaboveshort,
-    displayskipbelow.store = \onepgnote@displayskipbelow,
-    displayskipbelowshort.store = \onepgnote@displayskipbelowshort,
-    
-    % Note box options  
-    noteboxcolor.store = \onepgnote@noteboxcolor,
-    noteboxframecolor.store = \onepgnote@noteboxframecolor
+\RequirePackage{expl3}
+\ExplSyntaxOn
+
+%---------------------------------- Set default values ---------------------------
+\tl_new:N \g__onepgnote_sectionvspace_tl
+\tl_new:N \g__onepgnote_sectionleftmargin_tl
+\tl_new:N \g__onepgnote_sectionrightmargin_tl
+\tl_new:N \g__onepgnote_sectionbottommargin_tl
+\tl_new:N \g__onepgnote_sectionborderwidth_tl
+\tl_new:N \g__onepgnote_sectionbordercolor_tl
+\tl_new:N \g__onepgnote_enumboxcolor_tl
+\tl_new:N \g__onepgnote_enumboxrounding_tl
+\tl_new:N \g__onepgnote_enumboxpadding_tl
+\tl_new:N \g__onepgnote_labelboxcolor_tl
+\tl_new:N \g__onepgnote_displayskipabove_tl
+\tl_new:N \g__onepgnote_displayskipaboveshort_tl
+\tl_new:N \g__onepgnote_displayskipbelow_tl
+\tl_new:N \g__onepgnote_displayskipbelowshort_tl
+\tl_new:N \g__onepgnote_noteboxcolor_tl
+\tl_new:N \g__onepgnote_noteboxframecolor_tl
+
+\tl_gset:Nn \g__onepgnote_sectionvspace_tl {5pt~plus~2pt~minus~3pt}
+\tl_gset:Nn \g__onepgnote_sectionleftmargin_tl {3mm}
+\tl_gset:Nn \g__onepgnote_sectionrightmargin_tl {1mm}
+\tl_gset:Nn \g__onepgnote_sectionbottommargin_tl {1mm}
+\tl_gset:Nn \g__onepgnote_sectionborderwidth_tl {2pt}
+\tl_gset:Nn \g__onepgnote_sectionbordercolor_tl {red}
+\tl_gset:Nn \g__onepgnote_enumboxcolor_tl {cyan!50}
+\tl_gset:Nn \g__onepgnote_enumboxrounding_tl {2pt}
+\tl_gset:Nn \g__onepgnote_enumboxpadding_tl {2pt}
+\tl_gset:Nn \g__onepgnote_labelboxcolor_tl {green!40!white}
+\tl_gset:Nn \g__onepgnote_displayskipabove_tl {1pt~plus~2pt~minus~1pt}
+\tl_gset:Nn \g__onepgnote_displayskipaboveshort_tl {1pt~plus~2pt~minus~1pt}
+\tl_gset:Nn \g__onepgnote_displayskipbelow_tl {1pt~plus~2pt~minus~1pt}
+\tl_gset:Nn \g__onepgnote_displayskipbelowshort_tl {1pt~plus~2pt~minus~1pt}
+\tl_gset:Nn \g__onepgnote_noteboxcolor_tl {yellow}
+\tl_gset:Nn \g__onepgnote_noteboxframecolor_tl {yellow}
+
+%---------------------------------- Declare keys --------------------------------
+\DeclareKeys
+{
+    sectionvspace .tl_gset:N = \g__onepgnote_sectionvspace_tl,
+    sectionleftmargin .tl_gset:N = \g__onepgnote_sectionleftmargin_tl,
+    sectionrightmargin .tl_gset:N = \g__onepgnote_sectionrightmargin_tl,
+    sectionbottommargin .tl_gset:N = \g__onepgnote_sectionbottommargin_tl,
+    sectionborderwidth .tl_gset:N = \g__onepgnote_sectionborderwidth_tl,
+    sectionbordercolor .tl_gset:N = \g__onepgnote_sectionbordercolor_tl,
+    enumboxcolor .tl_gset:N = \g__onepgnote_enumboxcolor_tl,
+    enumboxrounding .tl_gset:N = \g__onepgnote_enumboxrounding_tl,
+    enumboxpadding .tl_gset:N = \g__onepgnote_enumboxpadding_tl,
+    labelboxcolor .tl_gset:N = \g__onepgnote_labelboxcolor_tl,
+    displayskipabove .tl_gset:N = \g__onepgnote_displayskipabove_tl,
+    displayskipaboveshort .tl_gset:N = \g__onepgnote_displayskipaboveshort_tl,
+    displayskipbelow .tl_gset:N = \g__onepgnote_displayskipbelow_tl,
+    displayskipbelowshort .tl_gset:N = \g__onepgnote_displayskipbelowshort_tl,
+    noteboxcolor .tl_gset:N = \g__onepgnote_noteboxcolor_tl,
+    noteboxframecolor .tl_gset:N = \g__onepgnote_noteboxframecolor_tl,
+    unknown .code:n = \PassOptionsToClass{#1}{article}
 }
-% Unknown key handler - pass to article class
-\DeclareUnknownKeyHandler{\PassOptionsToClass{\CurrentOption}{article}}
 
-% Set default values
-\def\onepgnote@sectionvspace{5pt plus 2pt minus 3pt}
-\def\onepgnote@sectionleftmargin{3mm}
-\def\onepgnote@sectionrightmargin{1mm}
-\def\onepgnote@sectionbottommargin{1mm}
-\def\onepgnote@sectionborderwidth{2pt}
-\def\onepgnote@sectionbordercolor{red}
-\def\onepgnote@enumboxcolor{cyan!50}
-\def\onepgnote@enumboxrounding{2pt}
-\def\onepgnote@enumboxpadding{2pt}
-\def\onepgnote@labelboxcolor{green!40!white}
-\def\onepgnote@displayskipabove{1pt plus 2pt minus 1pt}
-\def\onepgnote@displayskipaboveshort{1pt plus 2pt minus 1pt}
-\def\onepgnote@displayskipbelow{1pt plus 2pt minus 1pt}
-\def\onepgnote@displayskipbelowshort{1pt plus 2pt minus 1pt}
-\def\onepgnote@noteboxcolor{yellow}
-\def\onepgnote@noteboxframecolor{yellow}
+%---------------------------------- Process options -----------------------------
+\ProcessKeyOptions
 
-%---------------------------------- Execute options -----------------------------
-\ProcessKeyOptions[onepgnote]
+%---------------------------------- Create LaTeX2e interface -------------------
+\cs_new:Npn \onepgnote@sectionvspace { \tl_use:N \g__onepgnote_sectionvspace_tl }
+\cs_new:Npn \onepgnote@sectionleftmargin { \tl_use:N \g__onepgnote_sectionleftmargin_tl }
+\cs_new:Npn \onepgnote@sectionrightmargin { \tl_use:N \g__onepgnote_sectionrightmargin_tl }
+\cs_new:Npn \onepgnote@sectionbottommargin { \tl_use:N \g__onepgnote_sectionbottommargin_tl }
+\cs_new:Npn \onepgnote@sectionborderwidth { \tl_use:N \g__onepgnote_sectionborderwidth_tl }
+\cs_new:Npn \onepgnote@sectionbordercolor { \tl_use:N \g__onepgnote_sectionbordercolor_tl }
+\cs_new:Npn \onepgnote@enumboxcolor { \tl_use:N \g__onepgnote_enumboxcolor_tl }
+\cs_new:Npn \onepgnote@enumboxrounding { \tl_use:N \g__onepgnote_enumboxrounding_tl }
+\cs_new:Npn \onepgnote@enumboxpadding { \tl_use:N \g__onepgnote_enumboxpadding_tl }
+\cs_new:Npn \onepgnote@labelboxcolor { \tl_use:N \g__onepgnote_labelboxcolor_tl }
+\cs_new:Npn \onepgnote@displayskipabove { \tl_use:N \g__onepgnote_displayskipabove_tl }
+\cs_new:Npn \onepgnote@displayskipaboveshort { \tl_use:N \g__onepgnote_displayskipaboveshort_tl }
+\cs_new:Npn \onepgnote@displayskipbelow { \tl_use:N \g__onepgnote_displayskipbelow_tl }
+\cs_new:Npn \onepgnote@displayskipbelowshort { \tl_use:N \g__onepgnote_displayskipbelowshort_tl }
+\cs_new:Npn \onepgnote@noteboxcolor { \tl_use:N \g__onepgnote_noteboxcolor_tl }
+\cs_new:Npn \onepgnote@noteboxframecolor { \tl_use:N \g__onepgnote_noteboxframecolor_tl }
+
+\ExplSyntaxOff
 
 %---------------------------------- Package loading -----------------------------
 % Based on article
