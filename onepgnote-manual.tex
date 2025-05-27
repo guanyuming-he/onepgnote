@@ -65,6 +65,23 @@ powerful ideas.
 These few ideas don't take a lot lines of code to implement, but together, they
 enable the making of very space-efficient and reading-efficient one-page notes.
 
+\section{Usage}
+The class is \verb!article!-based. You use it like a normal article except:
+\begin{enumerate}
+	\item I only override three sectioning commands: \verb|\section|,
+	\verb|\subsection|, and \verb|\subsubsection|. Do not use the others.
+	\item I only override listing environment \verb|enumerate|. Do not use the
+		others. But I may override more in the future.
+	\item Because of the tight space, you need to think of where you will allow
+		additional breaks in inline math by \verb|\allowbreak|. I don't like to
+		idea of using a global option to allow all breaks, so I leave the
+		freedom to you.
+\end{enumerate}
+
+Please see the example mentioned in the next section to have a direct impression
+on the effect. Also see its source code to notice that you indeed write the note
+like using \verb|article|.
+
 \section{Example (Template)}
 Inside the package installation directory, you will notice an
 \texttt{example.tex} that contains an example one-page note.
@@ -74,7 +91,13 @@ in the Motivation. I hope that demonstrates the simplicity and the power of my
 package.
 
 \section{Future directions}
-The package is largely not configurable. I plan to add more options to that in
-the future.
+As of version 1.0.0. All the features I want have been implemented and most of
+them are configurable via class options.
+
+One thing I could do in the future is to override more sectioning control
+sequences and listing environments.
+
+I could also add more styles of boxed, or add control sequences that allow the
+user to easily create them, in the future.
 
 \end{document}
