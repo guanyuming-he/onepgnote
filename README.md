@@ -1,9 +1,9 @@
 # onepgnote
-My LaTeX package that helps making one-page notes for exams.
+My LaTeX class for making one-page notes for exams.
 
 
 # Documentation
-See `onepgnote-manual.pdf`.
+See `onepgnote-manual.pdf`. You will have to compile it yourself if you only have source.
 
 
 # License
